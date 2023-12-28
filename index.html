@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Py Script</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+        - numpy
+        - pandas        
+    </py-env>
+    <py-script src="app.py"></py-script>
+</head>
+<style>
+    header {
+        padding: 20px;
+        background-color: gray;
+        color: white;
+        text-align: center;        
+    }
+
+    .container{
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;        
+    }
+    #csv{
+        display: flex;
+        align-items: center; 
+        justify-content: center;       
+    }
+    .dataframe{
+        border: 1px solid;
+        border-collapse: collapse;
+    }
+    tr, td, th{
+        border: 1px solid;
+    }
+    .input{
+        border: 1px solid black;
+    }
+    .label-input{
+        display: flex;
+        justify-content: space-between;
+    }
+    #btn{
+        background-color: green;                
+        cursor: pointer;
+        color: white;
+    }
+
+</style>
+
+<body>
+    <header>
+        <h4>Calculate RAM</h4>
+    </header>
+    <main>
+        <div class="container">
+            <div class="label-input">
+                <label for="csvfile">Calculate RAM from CSV file (enter 'csv') or manual input (enter 'manual')? </label>
+                <input type="text" id="csvfile" class="input">
+            </div>
+            <div class="label-input">
+                <label for="csvpath">Enter the path to the CSV file: </label>
+                <input type="text" id="csvpath" class="input">
+            </div>
+            <div>(or)</div>
+            <!-- <div class="label-input">
+                <label for="numcomp">Enter the number of components (or -1 to exit): </label>
+                <input type="text" id="numcomp" class="input">
+            </div> -->
+            <div class="label-input">
+                <label for="compname">Enter the name of component: </label>
+                <input type="text" id="compname" class="input">
+            </div>
+            <div class="label-input">
+                <label for="failrate">Enter the failure rate (failures per hour): </label>
+                <input type="text" id="failrate" class="input">
+            </div>
+            <div class="label-input">
+                <label for="repairtime">Enter the repair time (hours): </label>
+                <input type="text" id="repairtime" class="input">
+            </div>
+            <div class="label-input">
+                <label for="period">Enter the time period (in hours) for reliability calculation: </label>
+                <input type="text" id="period" class="input">
+            </div>
+            <button id="btn" pys-onClick="clickdata">Calculate</button>
+        </div>
+        <div id="csv">
+
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+
+</html>
