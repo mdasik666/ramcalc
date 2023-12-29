@@ -9,7 +9,7 @@
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <py-env>
         - numpy
-        - pandas        
+        - pandas
     </py-env>
     <py-script src="app.py"></py-script>
 </head>
@@ -18,43 +18,64 @@
         padding: 20px;
         background-color: gray;
         color: white;
-        text-align: center;        
+        text-align: center;
     }
 
-    .container{
+    .container {
         padding: 10px;
         display: flex;
         flex-direction: column;
         text-align: center;
-        gap: 10px;        
+        gap: 10px;
     }
-    #csv{
+
+    #csv {
         display: flex;
-        align-items: center; 
-        justify-content: center;       
+        align-items: center;
+        justify-content: center;
     }
-    .dataframe{
+
+    .dataframe {
         border: 1px solid;
         border-collapse: collapse;
     }
-    td, th{
+
+    td,
+    th {
         padding: 5px 10px;
         border: 1px solid;
         text-align: center;
     }
-    .input{
+
+    .input {
         border: 1px solid black;
     }
-    .label-input{
+
+    .label-input {
         display: flex;
         justify-content: space-between;
     }
-    #btn{
-        background-color: green;                
+
+    .combtn,
+    #btn {
+        background-color: green;
         cursor: pointer;
         color: white;
+        flex: 1;
     }
 
+    #btn {
+        height: 100%;
+        padding: 0 5px;
+    }
+
+    .btns {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
 </style>
 
 <body>
@@ -64,7 +85,8 @@
     <main>
         <div class="container">
             <div class="label-input">
-                <label for="csvfile">Calculate RAM from CSV file (enter 'csv') or manual input (enter 'manual')? </label>
+                <label for="csvfile">Calculate RAM from CSV file (enter 'csv') or manual input (enter 'manual')?
+                </label>
                 <input type="text" id="csvfile" class="input">
             </div>
             <div class="label-input">
@@ -72,10 +94,13 @@
                 <input type="text" id="csvpath" class="input">
             </div>
             <div>(or)</div>
-            <!-- <div class="label-input">
+            <div class="label-input">
                 <label for="numcomp">Enter the number of components (or -1 to exit): </label>
-                <input type="text" id="numcomp" class="input">
-            </div> -->
+                <div>
+                    <input type="text" id="numcomp" class="input">
+                    <button pys-onClick="setData" id="btn">Set</button>
+                </div>
+            </div>
             <div class="label-input">
                 <label for="compname">Enter the name of component: </label>
                 <input type="text" id="compname" class="input">
@@ -92,15 +117,44 @@
                 <label for="period">Enter the time period (in hours) for reliability calculation: </label>
                 <input type="text" id="period" class="input">
             </div>
-            <button id="btn" pys-onClick="clickdata">Calculate</button>
+            <div class="btns">
+                <button id="btn1" class="combtn" pys-onClick="resetData">Clear</button>
+                <button id="btn2" class="combtn" pys-onClick="addData">Add</button>
+            </div>
+            <div class="btns">
+                <button id="btn3" class="combtn" onclick="downloadTableData()">Download</button>
+                <button id="btn4" class="combtn" pys-onClick="calcData">Calculate</button>
+            </div>
         </div>
         <div id="csv">
 
         </div>
     </main>
-    <footer>
+    <script>
+        function downloadTableData() {            
+            var table = document.querySelector('.dataframe');
+            var tableData = '';
+            for (var i = 0; i < table.rows.length; i++) {                
+                for (var j = 0; j < table.rows[i].cells.length; j++) {                    
+                    tableData += table.rows[i].cells[j].innerText;
+                    tableData += '\t';
+                    if (j === table.rows[i].cells.length - 1) {
+                        tableData += '\n';
+                    }
+                }
+            }
+            downloadToFile(tableData, 'table_data.txt', 'text/plain');
+        }
 
-    </footer>
+        function downloadToFile(content, filename, contentType) {
+            var a = document.createElement('a');
+            var file = new Blob([content], { type: contentType });
+            a.href = URL.createObjectURL(file);
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+    </script>
 </body>
 
 </html>
